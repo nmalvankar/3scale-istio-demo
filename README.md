@@ -1,7 +1,7 @@
 # 3scale istio demo
 
 ## Install OCS on OCP 4.x
-cd /Users/nmalvank/dev/work/cibc/3scale-demo/ocs-install
+cd ocs-install
 
 git clone https://github.com/openshift/openshift-cns-testdrive.git -b ocp4-dev content
 
@@ -41,7 +41,7 @@ Set ocs-storagecluster-cephfs as the default storage class for the OCP cluster
 
 ## Install 3scale API Management
 
-oc apply -f apimanager.yaml -n 3scale
+oc apply -f 3scale-install/apimanager.yaml -n 3scale
 
 ## OSSM Installation
 
@@ -49,6 +49,9 @@ oc apply -f apimanager.yaml -n 3scale
 2. Install Jaeger Operator
 3. Install Kiali Operator
 4. Install OSSM Operator
+
+Install the service mesh control plane with 3scale adapter
+oc apply -f oss/install/full-install.yaml -n istio-system
 
 ## Install 3scale adapter
 
@@ -83,7 +86,7 @@ Threescale component configurations in spec section:
 SM_CP_NS=istio-system
 BOOKINFO_NS=bookinfo
 API_MANAGER_NS=3scale
-API_ADMIN_ACCESS_TOKEN=rY7uBblCvnK4P0a0
+API_ADMIN_ACCESS_TOKEN=XXXXXXXXXX
 SYSTEM_PROVIDER_URL=https://3scale-admin.apps.cluster-8244.8244.example.opentlc.com
 HANDLER_NAME=threescale
 SERVICE_ID=3
@@ -96,6 +99,7 @@ echo $SYSTEM_PROVIDER_URL
 echo $HANDLER_NAME
 echo $SERVICE_ID
 
+cd 3scale-istio
 oc exec -n ${SM_CP_NS} $(oc get po -n ${SM_CP_NS} -o jsonpath='{.items[?(@.metadata.labels.app=="3scale-istio-adapter")].metadata.name}') -it -- ./3scale-config-gen --url ${SYSTEM_PROVIDER_URL} --name ${HANDLER_NAME} --token ${API_ADMIN_ACCESS_TOKEN} -n ${SM_CP_NS} > threescale-adapter-config.yaml
 
 oc apply -f threescale-adapter-config.yaml
