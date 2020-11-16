@@ -1,0 +1,7 @@
+﻿apiVersion: apps.3scale.net/v1alpha1
+kind: APIManager
+metadata:
+  name: cibc-apimanager
+spec:
+  resourceRequirementsEnabled: false
+  wildcardDomain: demo-test.apps.cluster-8244.8244.example.opentlc.com

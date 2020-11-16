@@ -1,0 +1,50 @@
+apiVersion: config.istio.io/v1alpha2
+kind: handler
+metadata:
+  creationTimestamp: null
+  name: threescale
+  namespace: istio-system
+spec:
+  adapter: threescale
+  connection:
+    address: dns:///threescale-istio-adapter:3333
+  params:
+    access_token: rY7uBblCvnK4P0a0
+    system_url: https://3scale-admin.apps.cluster-8244.8244.example.opentlc.com
+---
+apiVersion: config.istio.io/v1alpha2
+kind: instance
+metadata:
+  creationTimestamp: null
+  name: threescale
+  namespace: istio-system
+spec:
+  params:
+    action:
+      method: request.method | "get"
+      path: request.url_path
+      service: destination.labels["service-mesh.3scale.net/service-id"] | ""
+    subject:
+      properties:
+        app_id: request.query_params["app_id"] | request.headers["app-id"] | ""
+        app_key: request.query_params["app_key"] | request.headers["app-key"] | ""
+        client_id: request.auth.claims["azp"] | ""
+      user: request.query_params["user_key"] | request.headers["x-user-key"] | ""
+  template: threescale-authorization
+---
+apiVersion: config.istio.io/v1alpha2
+kind: rule
+metadata:
+  creationTimestamp: null
+  name: threescale
+  namespace: istio-system
+spec:
+  actions:
+  - handler: threescale.handler.istio-system
+    instances:
+    - threescale.instance.istio-system
+  match: |-
+    context.reporter.kind == "inbound" &&
+    destination.labels["service-mesh.3scale.net/credentials"] == "threescale" &&
+    destination.labels["service-mesh.3scale.net/authentication-method"] == ""
+---
