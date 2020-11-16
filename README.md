@@ -1,7 +1,7 @@
 # 3scale istio demo
 
 ## Install OCS on OCP 4.x
-cd ocs-install
+```cd ocs-install
 
 git clone https://github.com/openshift/openshift-cns-testdrive.git -b ocp4-dev content
 
@@ -36,6 +36,7 @@ oc label namespace openshift-storage "openshift.io/cluster-monitoring=true"
 oc get nodes --show-labels | grep storage-node |cut -d' ' -f1
 
 watch oc -n openshift-storage get csv
+```
 
 Set ocs-storagecluster-cephfs as the default storage class for the OCP cluster
 
@@ -51,7 +52,9 @@ oc apply -f 3scale-install/apimanager.yaml -n 3scale
 4. Install OSSM Operator
 
 Install the service mesh control plane with 3scale adapter
-oc apply -f ossm/install/full-install-3scale.yaml -n istio-system
+
+```oc apply -f ossm/install/full-install-3scale.yaml -n istio-system
+```
 
 ## Install bookinfo example application
 ```cd bookinfo
@@ -139,12 +142,12 @@ Configuration page > update configuration
 
 Create new application for productpage
 
-export USER_KEY=6b2774a23842ca6b7aa66f666222a3a9
+```export USER_KEY=6b2774a23842ca6b7aa66f666222a3a9
 
 curl -v -k `echo "${GATEWAY_URL}/productpage"`
 
 curl -v -k `echo "$GATEWAY_URL/productpage?user_key=$USER_KEY"`
-
+```
 
 ## References: 
 OCS Installation: http://ocp-ocs-admins-labguides.6923.rh-us-east-1.openshiftapps.com/workshop/ocs4
