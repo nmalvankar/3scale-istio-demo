@@ -42,7 +42,9 @@ Set ocs-storagecluster-cephfs as the default storage class for the OCP cluster
 
 ## Install 3scale API Management
 
+```
 oc apply -f 3scale-install/apimanager.yaml -n 3scale
+```
 
 ## OSSM Installation
 
@@ -52,8 +54,8 @@ oc apply -f 3scale-install/apimanager.yaml -n 3scale
 4. Install OSSM Operator
 
 Install the service mesh control plane with 3scale adapter
-
-```oc apply -f ossm/install/full-install-3scale.yaml -n istio-system
+```
+oc apply -f ossm/install/full-install-3scale.yaml -n istio-system
 ```
 
 ## Install bookinfo example application
