@@ -151,6 +151,7 @@ curl -v -k `echo "$GATEWAY_URL/productpage?user_key=$USER_KEY"`
 
 ## References: 
 OCS Installation: http://ocp-ocs-admins-labguides.6923.rh-us-east-1.openshiftapps.com/workshop/ocs4
+
 3scale-istio adapter: https://www.opentlc.com/labs/3scale_advanced_implementation/03_2_API_Mgmt_Adapter_Lab.html#_3scale_api_service_configuration
 
 
