@@ -51,7 +51,21 @@ oc apply -f 3scale-install/apimanager.yaml -n 3scale
 4. Install OSSM Operator
 
 Install the service mesh control plane with 3scale adapter
-oc apply -f oss/install/full-install.yaml -n istio-system
+oc apply -f ossm/install/full-install-3scale.yaml -n istio-system
+
+## Install bookinfo example application
+```cd bookinfo
+
+oc new-project bookinfo
+
+oc apply -f member-roll.yaml
+
+oc apply -f bookinfo.yaml -n bookinfo
+
+oc apply -f bookinfo-gateway.yaml -n bookinfo
+
+oc apply -f destination-rule-all.yaml -n bookinfo
+```
 
 ## Install 3scale adapter
 
@@ -61,6 +75,7 @@ In the global section, the value of disablePolicyChecks is set to false:
 
     global:
       disablePolicyChecks: false
+      
 Threescale component configurations in spec section:
 
     threeScale:
@@ -83,7 +98,7 @@ Threescale component configurations in spec section:
 
 ### Configure thee 3scale adapter
 
-SM_CP_NS=istio-system
+```SM_CP_NS=istio-system
 BOOKINFO_NS=bookinfo
 API_MANAGER_NS=3scale
 API_ADMIN_ACCESS_TOKEN=XXXXXXXXXX
@@ -116,6 +131,7 @@ patch="$(oc get deployment -n "${BOOKINFO_NS}" productpage-v1 --template='{"spec
 echo $patch
 
 oc patch -n "${BOOKINFO_NS}"  deployment productpage-v1 --patch ''"${patch}"''
+```
 
 Update the 3scale configuration to use istio and update the product
 
