@@ -103,7 +103,8 @@ Threescale component configurations in spec section:
 
 ### Configure thee 3scale adapter
 
-```SM_CP_NS=istio-system
+```
+SM_CP_NS=istio-system
 BOOKINFO_NS=bookinfo
 API_MANAGER_NS=3scale
 API_ADMIN_ACCESS_TOKEN=XXXXXXXXXX
