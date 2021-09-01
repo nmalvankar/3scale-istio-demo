@@ -1,9 +1,25 @@
-﻿apiVersion: maistra.io/v2
+apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
-  name: full-install
+  namespace: cibc-ossm
+  name: basic
 spec:
+  tracing:
+    sampling: 10000
+    type: Jaeger
+  policy:
+    type: Istiod
   addons:
+    grafana:
+      enabled: true
+    jaeger:
+      install:
+        storage:
+          type: Memory
+    kiali:
+      enabled: true
+    prometheus:
+      enabled: true
     3scale:
       enabled: true
       metrics:
@@ -23,69 +39,6 @@ spec:
       log_grpc: false
       grpc:
         max_conn_timeout: 60
-    grafana:
-      enabled: true
-    jaeger:
-      install:
-        storage:
-          type: Memory
-    kiali:
-      enabled: true
-  gateways:
-    egress:
-      runtime:
-        deployment:
-          autoScaling:
-            enabled: false
-      service: {}
-    ingress:
-      runtime:
-        deployment:
-          autoScaling:
-            enabled: false
-      service: {}
-  policy:
-    mixer:
-      enableChecks: true
-  profiles:
-    - default
-  proxy:
-    runtime:
-      container:
-        resources:
-          limits:
-            cpu: 500m
-            memory: 128Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-  runtime:
-    components:
-      3scale:
-        container:
-          imageName: 3scale-istio-adapter-rhel8
-          imageTag: 1.0.0
-      mixer.policy:
-        deployment:
-          autoScaling:
-            enabled: false
-      mixer.telemetry:
-        container:
-          resources:
-            limits:
-              cpu: 500m
-              memory: 4G
-            requests:
-              cpu: 100m
-              memory: 1G
-        deployment:
-          autoScaling:
-            enabled: false
-      pilot:
-        deployment:
-          autoScaling:
-            enabled: false
-  tracing:
-    sampling: 10000
-    type: Jaeger
-  version: v1.1
+  version: v2.0
+  telemetry:
+    type: Istiod
